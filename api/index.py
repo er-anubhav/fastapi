@@ -209,5 +209,5 @@ async def chat(request: ChatRequest):
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
 
-# For Vercel
+# Vercel serverless handler
 handler = app
