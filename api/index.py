@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
 import httpx
+from mangum import Mangum
 
 # Load environment variables
 load_dotenv()
@@ -208,3 +209,7 @@ async def chat(request: ChatRequest):
         print(f"Error in /chat endpoint: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
+
+# Vercel serverless handler
+handler = Mangum(app)
+
