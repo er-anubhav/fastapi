@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 from pydantic_ai import Agent
 import httpx
-from mangum import Mangum
 
 # Load environment variables
 load_dotenv()
@@ -15,11 +14,12 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
+# Validate environment variables (warnings only at startup)
 if not OPENROUTER_API_KEY:
-    raise ValueError("OPENROUTER_API_KEY environment variable is missing")
+    print("WARNING: OPENROUTER_API_KEY environment variable is missing")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("SUPABASE_URL and SUPABASE_KEY environment variables are missing")
+    print("WARNING: SUPABASE_URL and SUPABASE_KEY environment variables are missing")
 
 # Initialize agents
 Gift_agent = Agent(
@@ -210,6 +210,6 @@ async def chat(request: ChatRequest):
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
 
-# Vercel serverless handler
-handler = Mangum(app)
+# Export app for Vercel
+app = app
 
